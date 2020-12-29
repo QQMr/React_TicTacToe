@@ -1,18 +1,23 @@
 import './Board.css';
 import {Cell} from "../Cell/Cell"
 
-export function Board() {
+export function Board(props) {
+
+    const cellValues = props.cellValues;
+    const winningComnibation = props.winningComnibation;
+    const cells = cellValues.map( (value,index) => {
+        const canHighlight = winningComnibation && 
+                            winningComnibation.indexOf(index) >= 0;
+        return <Cell 
+                    key={index} 
+                    value={value} 
+                    canHighlight={canHighlight}
+                />
+    });
+
     return (
             <div id="board">
-                <Cell></Cell>
-                <Cell></Cell>
-                <Cell></Cell>
-                <Cell></Cell>
-                <Cell></Cell>
-                <Cell></Cell>
-                <Cell></Cell>
-                <Cell></Cell>
-                <Cell></Cell>
+                {cells}
             </div>
        
     );

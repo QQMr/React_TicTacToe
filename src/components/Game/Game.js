@@ -2,11 +2,17 @@ import './Game.css';
 import {Board} from "../Board/Board"
 
 export function Game() {
+
+    const cellValues = ['X','X','O','O','X','X','O','X','X'];
+    const winningComnibation = [0,1,2];
+
     return (
       <>
           <div id="game">
             <h1>Tic Tac Toe</h1>
-           <Board></Board>
+           <Board 
+            cellValues={cellValues}
+            winningComnibation={winningComnibation}/>
         </div>
   
         <div id="modal-overlay">
