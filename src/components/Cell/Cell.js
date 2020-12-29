@@ -13,8 +13,7 @@ export function Cell(props) {
     })
 
     return (
-            
-            <button className={cellClasses}>
+            <button className={cellClasses} onClick = {props.cellClicked}>
                 <span className={cellContentClasses}>{props.value}</span>
             </button>
            
