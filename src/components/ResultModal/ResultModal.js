@@ -1,6 +1,6 @@
 import './ResultModal.css';
 import classNames from "classnames"
-
+import logo from '../../asset/pika.gif'
 
 export function ResultModal(props) {
 
@@ -16,6 +16,9 @@ export function ResultModal(props) {
                     <div id="winner-container">
                         <span>{message}</span>
                     </div>
+                </div>
+                <div id="image-container">              
+                    <img id="image2-container" src={logo} alt="loading..." />
                 </div>
                 <div id="new-game-container">
                     <button id="new-game-button"
