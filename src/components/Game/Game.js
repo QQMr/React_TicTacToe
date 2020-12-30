@@ -2,53 +2,66 @@ import './Game.css';
 import {Board} from "../Board/Board"
 import { useState } from 'react';
 import { Cell } from '../Cell/Cell';
+import { ResultModal } from '../ResultModal/ResultModal'
+import {calculateWinner} from '../../utils/calculateWinner'
 
 const PLAYER = Object.freeze({"X_PLAYER":1, "O_PLAYER":2})
+
+
 
 export function Game() {
 
     const [cellValues, setCellValues] = useState(['','','','','','','','','']);
     const [player, setPlayer] = useState(PLAYER.X_PLAYER)
-    const winningComnibation = [];
+    const [isGameOver, setIsGameOver] = useState(false)
+    const [winner, setWinner] = useState()
+    const [winnerCombination, setWinnerCombination] = useState()
 
     console.log("Render Game");
     const cellClicked = (cellIndex) => {
 
-        let cellValuesTmp =  Array.from(cellValues);
+        let newCellValues =  Array.from(cellValues);
 
-        if( cellValuesTmp[cellIndex] !== '' )
+        if( newCellValues[cellIndex] !== '' ) //Prevent overwriting cell
             return;
 
-        cellValuesTmp[cellIndex]= (player===PLAYER.X_PLAYER)?'X':'O';
+        newCellValues[cellIndex]= (player===PLAYER.X_PLAYER)?'X':'O';
+        
+        //Calculate the result
+        const calcResult = calculateWinner(newCellValues,cellIndex)
 
-        setCellValues(cellValuesTmp)
+        setCellValues(newCellValues)
         setPlayer((player===PLAYER.X_PLAYER)?PLAYER.O_PLAYER:PLAYER.X_PLAYER)
+        setIsGameOver(calcResult.hasResult)
+        setWinner(calcResult.winner)
+        setWinnerCombination(calcResult.winningComnibation)
 
     }
 
+    const newGameClick = () => {
+        setCellValues(['','','','','','','','',''])
+        setPlayer(PLAYER.X_PLAYER)
+        setIsGameOver(false)
+        setWinner()
+        setWinnerCombination()
+    } 
+    
     return (
       <>
           <div id="game">
             <h1>Tic Tac Toe</h1>
            <Board 
             cellValues={cellValues}
-            winningComnibation={winningComnibation}
+            winningComnibation={winnerCombination}
             cellClicked={cellClicked}
             />
         </div>
   
-        <div id="modal-overlay">
-            <div id="game-result-modal">
-                <div id="result-container">
-                    <div id="winner-container">
-                        <span></span>
-                    </div>
-                </div>
-                <div id="new-game-container">
-                    <button id="new-game-button">Start New Game</button>
-                </div>
-            </div>
-        </div>
+        <ResultModal 
+          gameOver = {isGameOver}
+          winner= {winner}
+          newGameClick = {newGameClick}
+        />
       </>
     );
   }

@@ -3,10 +3,6 @@ import {Cell} from "../Cell/Cell"
 
 export function Board(props) {
 
-    const cellClicked = (cellIndex) => {
-        console.log(`log ${cellIndex} click`);
-    }
-
     const cellValues = props.cellValues;
     const winningComnibation = props.winningComnibation;
     const cells = cellValues.map( (value,index) => {
